@@ -23,7 +23,7 @@ const CoverImage = () => {
         <div className="relative flex flex-col">
           <img
             src={file}
-            alt=""
+            alt="Cover Image"
             className="w-full h-80 m-auto object-cover rounded-[5px]"
           />
           <div className="self-end text-sm flex gap-5 mt-3">
@@ -32,7 +32,7 @@ const CoverImage = () => {
               onClick={() => inputFileRef.current.click()}
             >
               <UploadOutlined style={{ fontSize: 18, fontWeight: "bold" }} />
-              Change
+              Re-upload
             </div>
             <div
               className="flex items-center gap-2 text-red-500 cursor-pointer p-2 border border-red-300 rounded-md"
