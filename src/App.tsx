@@ -1,5 +1,12 @@
+import Layout from "@/layout";
+import ApplicationForm from "@/pages/application-form";
+
 const App = () => {
-  return <h1>Capital Placement Task 1</h1>;
+  return (
+    <Layout>
+      <ApplicationForm />
+    </Layout>
+  );
 };
 
 export default App;
