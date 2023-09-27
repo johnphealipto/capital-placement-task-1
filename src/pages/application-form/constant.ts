@@ -53,16 +53,6 @@ export const PROFILE = [
   },
 ];
 
-export const QUESTION = {
-  id: "",
-  type: "",
-  question: "",
-  choices: [""],
-  maxChoice: 0,
-  disqualify: false,
-  other: false,
-};
-
 export const QUESTION_TYPES = [
   { value: "Paragraph", label: "Paragraph" },
   { value: "Short answer", label: "Short answer" },

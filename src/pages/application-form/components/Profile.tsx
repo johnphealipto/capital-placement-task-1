@@ -2,14 +2,21 @@ import CheckBox from "@/components/CheckBox";
 import { PROFILE } from "../constant";
 import SwitchBox from "@/components/SwitchBox";
 import RowWrapper from "@/components/wrappers/RowWrapper";
-import QuestionsWrapper from "@/components/wrappers/QuestionsWrapper";
+import AdditionalQuestions from "./AdditionalQuestions";
 
 export interface IProfile {
   data: any;
   handleChangeInput: (key: string, input: string, value: boolean) => void;
+  handleSaveNewQuestion: (input: string, value: any) => void;
+  handleDeleteQuestion: (input: string, id: string) => void;
 }
 
-const Profile: React.FC<IProfile> = ({ data, handleChangeInput }) => {
+const Profile: React.FC<IProfile> = ({
+  data,
+  handleChangeInput,
+  handleSaveNewQuestion,
+  handleDeleteQuestion,
+}) => {
   return (
     <div>
       {PROFILE.map((item, idx) => (
@@ -34,7 +41,15 @@ const Profile: React.FC<IProfile> = ({ data, handleChangeInput }) => {
           </div>
         </RowWrapper>
       ))}
-      <QuestionsWrapper />
+      <AdditionalQuestions
+        questions={data.profileQuestions}
+        handleSaveNewQuestion={(value) =>
+          handleSaveNewQuestion("profileQuestions", value)
+        }
+        handleDeleteQuestion={(id) =>
+          handleDeleteQuestion("profileQuestions", id)
+        }
+      />
     </div>
   );
 };

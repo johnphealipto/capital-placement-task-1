@@ -29,16 +29,43 @@ export default () => {
     });
   };
 
-  const handleChangeCoverImage = (input, value) => {
+  const handleChangeCoverImage = (value) => {
     setInputs((prevState) => {
       const _inputs = cloneDeep(prevState);
-      _inputs.data.attributes[input] = value;
+      _inputs.data.attributes.coverImage = value;
 
       return _inputs;
     });
   };
 
-  const handleAddQuestion = () => {};
+  const handleSaveNewQuestion = (label, input, value) => {
+    setInputs((prevState) => {
+      const _inputs = cloneDeep(prevState);
+      _inputs.data.attributes[label][input] = [
+        ..._inputs.data.attributes[label][input],
+        value,
+      ];
+      return _inputs;
+    });
+  };
 
-  return { inputs, handleChangeCoverImage, handleChange, handleAddQuestion };
+  const handleDeleteQuestion = (label, input, id) => {
+    setInputs((prevState) => {
+      const _inputs = cloneDeep(prevState);
+      const question = _inputs.data.attributes[label][input];
+      _inputs.data.attributes[label][input] = question.filter(
+        (item) => item.id !== id
+      );
+      return _inputs;
+    });
+  };
+
+  return {
+    inputs,
+    setInputs,
+    handleChangeCoverImage,
+    handleChange,
+    handleSaveNewQuestion,
+    handleDeleteQuestion,
+  };
 };

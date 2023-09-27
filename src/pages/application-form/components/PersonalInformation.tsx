@@ -2,12 +2,14 @@ import CheckBox from "@/components/CheckBox";
 import { PERSONAL_INFO } from "../constant";
 import SwitchBox from "@/components/SwitchBox";
 import RowWrapper from "@/components/wrappers/RowWrapper";
-import QuestionsWrapper from "@/components/wrappers/QuestionsWrapper";
 import { IProfile } from "./Profile";
+import AdditionalQuestions from "./AdditionalQuestions";
 
 const PersonalInformation: React.FC<IProfile> = ({
   data,
   handleChangeInput,
+  handleSaveNewQuestion,
+  handleDeleteQuestion,
 }) => {
   const keysToExclude = ["firstName", "lastName", "emailId"];
 
@@ -42,7 +44,15 @@ const PersonalInformation: React.FC<IProfile> = ({
           ) : null}
         </RowWrapper>
       ))}
-      <QuestionsWrapper />
+      <AdditionalQuestions
+        questions={data.personalQuestions}
+        handleSaveNewQuestion={(value) =>
+          handleSaveNewQuestion("personalQuestions", value)
+        }
+        handleDeleteQuestion={(id) =>
+          handleDeleteQuestion("personalQuestions", id)
+        }
+      />
     </div>
   );
 };

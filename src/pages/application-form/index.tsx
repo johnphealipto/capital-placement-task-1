@@ -4,21 +4,27 @@ import PersonalInformation from "./components/PersonalInformation";
 import Profile from "./components/Profile";
 import AdditionalQuestions from "./components/AdditionalQuestions";
 import useApplicationForm from "./hooks/useApplicationForm";
+import cloneDeep from "lodash.clonedeep";
 
 const ApplicationForm = () => {
-  const { inputs, handleChange, handleChangeCoverImage } = useApplicationForm();
+  const {
+    inputs,
+    setInputs,
+    handleChange,
+    handleChangeCoverImage,
+    handleSaveNewQuestion,
+    handleDeleteQuestion,
+  } = useApplicationForm();
   const inputsToUse = inputs.data.attributes;
 
   return (
-    <div>
+    <div className="flex flex-col gap-8">
       <FormWrapper
         title="Upload cover image"
         component={
           <CoverImage
             data={inputsToUse.coverImage}
-            handleChangeCoverImage={(value) =>
-              handleChangeCoverImage("coverImage", value)
-            }
+            handleChangeCoverImage={handleChangeCoverImage}
           />
         }
       />
@@ -29,6 +35,12 @@ const ApplicationForm = () => {
             data={inputsToUse.personalInformation}
             handleChangeInput={(key, input, value) =>
               handleChange("personalInformation", key, input, value)
+            }
+            handleSaveNewQuestion={(input, value) =>
+              handleSaveNewQuestion("personalInformation", input, value)
+            }
+            handleDeleteQuestion={(input, id) =>
+              handleDeleteQuestion("personalInformation", input, id)
             }
           />
         }
@@ -41,13 +53,41 @@ const ApplicationForm = () => {
             handleChangeInput={(key, input, value) =>
               handleChange("profile", key, input, value)
             }
+            handleSaveNewQuestion={(input, value) =>
+              handleSaveNewQuestion("profile", input, value)
+            }
+            handleDeleteQuestion={(input, id) =>
+              handleDeleteQuestion("profile", input, id)
+            }
           />
         }
       />
       <FormWrapper
         title="Additional questions"
         component={
-          <AdditionalQuestions data={inputsToUse.customisedQuestions} />
+          <AdditionalQuestions
+            questions={inputsToUse.customisedQuestions}
+            handleSaveNewQuestion={(value) =>
+              setInputs((prevState) => {
+                const _inputs = cloneDeep(prevState);
+                _inputs.data.attributes.customisedQuestions = [
+                  ..._inputs.data.attributes.customisedQuestions,
+                  value,
+                ];
+                return _inputs;
+              })
+            }
+            handleDeleteQuestion={(id) =>
+              setInputs((prevState) => {
+                const _inputs = cloneDeep(prevState);
+                const question = _inputs.data.attributes.customisedQuestions;
+                _inputs.data.attributes.customisedQuestions = question.filter(
+                  (item) => item.id !== id
+                );
+                return _inputs;
+              })
+            }
+          />
         }
       />
     </div>
