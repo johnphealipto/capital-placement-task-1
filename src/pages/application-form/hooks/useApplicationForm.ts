@@ -24,7 +24,6 @@ export default () => {
     setInputs((prevState) => {
       const _inputs = cloneDeep(prevState);
       _inputs.data.attributes[label][key][input] = value;
-
       return _inputs;
     });
   };
@@ -33,7 +32,23 @@ export default () => {
     setInputs((prevState) => {
       const _inputs = cloneDeep(prevState);
       _inputs.data.attributes.coverImage = value;
+      return _inputs;
+    });
+  };
 
+  const handleChangeExistingQuestion = (
+    label: string,
+    key: string,
+    id: string,
+    input: string,
+    value: any
+  ) => {
+    setInputs((prevState) => {
+      const _inputs = cloneDeep(prevState);
+      const questions = _inputs.data.attributes[label][key];
+      const index = questions.findIndex((x) => x.id === id);
+      questions[index] = { ...questions[index], [input]: value };
+      _inputs.data.attributes[label][key] = questions;
       return _inputs;
     });
   };
@@ -52,8 +67,8 @@ export default () => {
   const handleDeleteQuestion = (label, input, id) => {
     setInputs((prevState) => {
       const _inputs = cloneDeep(prevState);
-      const question = _inputs.data.attributes[label][input];
-      _inputs.data.attributes[label][input] = question.filter(
+      const questions = _inputs.data.attributes[label][input];
+      _inputs.data.attributes[label][input] = questions.filter(
         (item) => item.id !== id
       );
       return _inputs;
@@ -67,5 +82,6 @@ export default () => {
     handleChange,
     handleSaveNewQuestion,
     handleDeleteQuestion,
+    handleChangeExistingQuestion,
   };
 };

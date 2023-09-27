@@ -10,6 +10,7 @@ const PersonalInformation: React.FC<IProfile> = ({
   handleChangeInput,
   handleSaveNewQuestion,
   handleDeleteQuestion,
+  handleChangeExistingQuestion,
 }) => {
   const keysToExclude = ["firstName", "lastName", "emailId"];
 
@@ -52,6 +53,7 @@ const PersonalInformation: React.FC<IProfile> = ({
         handleDeleteQuestion={(id) =>
           handleDeleteQuestion("personalQuestions", id)
         }
+        handleChangeExistingQuestion={handleChangeExistingQuestion}
       />
     </div>
   );

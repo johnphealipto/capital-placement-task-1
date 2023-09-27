@@ -14,6 +14,7 @@ const ApplicationForm = () => {
     handleChangeCoverImage,
     handleSaveNewQuestion,
     handleDeleteQuestion,
+    handleChangeExistingQuestion,
   } = useApplicationForm();
   const inputsToUse = inputs.data.attributes;
 
@@ -42,6 +43,15 @@ const ApplicationForm = () => {
             handleDeleteQuestion={(input, id) =>
               handleDeleteQuestion("personalInformation", input, id)
             }
+            handleChangeExistingQuestion={(id, input, value) =>
+              handleChangeExistingQuestion(
+                "personalInformation",
+                "personalQuestions",
+                id,
+                input,
+                value
+              )
+            }
           />
         }
       />
@@ -58,6 +68,15 @@ const ApplicationForm = () => {
             }
             handleDeleteQuestion={(input, id) =>
               handleDeleteQuestion("profile", input, id)
+            }
+            handleChangeExistingQuestion={(id, input, value) =>
+              handleChangeExistingQuestion(
+                "profile",
+                "profileQuestions",
+                id,
+                input,
+                value
+              )
             }
           />
         }
@@ -80,10 +99,20 @@ const ApplicationForm = () => {
             handleDeleteQuestion={(id) =>
               setInputs((prevState) => {
                 const _inputs = cloneDeep(prevState);
-                const question = _inputs.data.attributes.customisedQuestions;
-                _inputs.data.attributes.customisedQuestions = question.filter(
+                const questions = _inputs.data.attributes.customisedQuestions;
+                _inputs.data.attributes.customisedQuestions = questions.filter(
                   (item) => item.id !== id
                 );
+                return _inputs;
+              })
+            }
+            handleChangeExistingQuestion={(id, input, value) =>
+              setInputs((prevState) => {
+                const _inputs = cloneDeep(prevState);
+                const questions = _inputs.data.attributes.customisedQuestions;
+                const index = questions.findIndex((x) => x.id === id);
+                questions[index] = { ...questions[index], [input]: value };
+                _inputs.data.attributes.customisedQuestions = questions;
                 return _inputs;
               })
             }

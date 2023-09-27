@@ -7,10 +7,58 @@ import SelectInput from "@/components/SelectInput";
 import TextInput from "@/components/TextInput";
 import { PlusOutlined } from "@ant-design/icons";
 
+interface IQuestionComponent {
+  input: any;
+  onDelete: () => void;
+  onSave: () => void;
+  handleChangeInput: (input: string, value: any) => void;
+}
+
+const QuestionComponent: React.FC<IQuestionComponent> = ({
+  input,
+  onDelete,
+  onSave,
+  handleChangeInput,
+}) => {
+  return (
+    <>
+      <div className="flex flex-col gap-3">
+        <SelectInput
+          label="Type"
+          options={QUESTION_TYPES}
+          value={input.type}
+          onChange={(value) => handleChangeInput("type", value)}
+        />
+        <TextInput
+          label="Question"
+          placeholder="Type here"
+          value={input.question}
+          onChange={(value) => handleChangeInput("question", value)}
+        />
+      </div>
+      <div className="flex justify-between items-center mt-5">
+        <button
+          className="text-[#A80000] flex items-center gap-1 text-sm"
+          onClick={onDelete}
+        >
+          <CancelIcon className="h-6 w-6" /> Delete question
+        </button>
+        <button
+          className="bg-[#087B2F] text-white font-bold text-sm py-2 px-3 rounded"
+          onClick={onSave}
+        >
+          Save
+        </button>
+      </div>
+    </>
+  );
+};
+
 const AdditionalQuestions = ({
   questions,
   handleSaveNewQuestion,
   handleDeleteQuestion,
+  handleChangeExistingQuestion,
 }) => {
   const [activeRow, setActiveRow] = useState<number | null>(null);
   const [newQuestion, setNewQuestion] = useState<any>(null);
@@ -68,62 +116,26 @@ const AdditionalQuestions = ({
               "h-fit pt-4": activeRow === idx,
             })}
           >
-            <div className="flex flex-col gap-3">
-              <SelectInput
-                label="Type"
-                options={QUESTION_TYPES}
-                value={item?.type}
-              />
-              <TextInput label="Question" placeholder="Type here" />
-            </div>
-            <div className="flex justify-between items-center mt-5">
-              <button
-                className="text-[#A80000] flex items-center gap-1 text-sm"
-                onClick={() => onDeleteQuestion(item.id)}
-              >
-                <CancelIcon className="h-6 w-6" /> Delete question
-              </button>
-              <button
-                className="bg-[#087B2F] text-white font-bold text-sm py-2 px-3 rounded"
-                onClick={onSaveNewQuestion}
-              >
-                Save
-              </button>
-            </div>
+            <QuestionComponent
+              input={item}
+              handleChangeInput={(input, value) =>
+                handleChangeExistingQuestion(item.id, input, value)
+              }
+              onDelete={() => onDeleteQuestion(item.id)}
+              onSave={() => setActiveRow(null)}
+            />
           </div>
         </div>
       ))}
 
       {newQuestion ? (
         <div className="py-6 overflow-hidden transition-all ">
-          <div className="flex flex-col gap-3">
-            <SelectInput
-              label="Type"
-              options={QUESTION_TYPES}
-              value={newQuestion?.type}
-              onChange={(value) => handleChangeNewQuestion("type", value)}
-            />
-            <TextInput
-              label="Question"
-              placeholder="Type here"
-              value={newQuestion?.question}
-              onChange={(value) => handleChangeNewQuestion("question", value)}
-            />
-          </div>
-          <div className="flex justify-between items-center mt-5">
-            <button
-              className="text-[#A80000] flex items-center gap-1 text-sm"
-              onClick={() => setNewQuestion(null)}
-            >
-              <CancelIcon className="h-6 w-6" /> Delete question
-            </button>
-            <button
-              className="bg-[#087B2F] text-white font-bold text-sm py-2 px-3 rounded"
-              onClick={onSaveNewQuestion}
-            >
-              Save
-            </button>
-          </div>
+          <QuestionComponent
+            input={newQuestion}
+            handleChangeInput={handleChangeNewQuestion}
+            onDelete={() => setNewQuestion(null)}
+            onSave={onSaveNewQuestion}
+          />
         </div>
       ) : null}
 

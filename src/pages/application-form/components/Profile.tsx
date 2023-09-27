@@ -9,6 +9,7 @@ export interface IProfile {
   handleChangeInput: (key: string, input: string, value: boolean) => void;
   handleSaveNewQuestion: (input: string, value: any) => void;
   handleDeleteQuestion: (input: string, id: string) => void;
+  handleChangeExistingQuestion: (id: string, input: string, value: any) => void;
 }
 
 const Profile: React.FC<IProfile> = ({
@@ -16,6 +17,7 @@ const Profile: React.FC<IProfile> = ({
   handleChangeInput,
   handleSaveNewQuestion,
   handleDeleteQuestion,
+  handleChangeExistingQuestion,
 }) => {
   return (
     <div>
@@ -49,6 +51,7 @@ const Profile: React.FC<IProfile> = ({
         handleDeleteQuestion={(id) =>
           handleDeleteQuestion("profileQuestions", id)
         }
+        handleChangeExistingQuestion={handleChangeExistingQuestion}
       />
     </div>
   );
