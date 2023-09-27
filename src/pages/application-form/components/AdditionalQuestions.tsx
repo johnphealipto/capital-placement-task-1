@@ -4,7 +4,7 @@ import classNames from "classnames";
 import { useState } from "react";
 import QuestionsWrapper from "@/components/wrappers/QuestionsWrapper";
 
-const AdditionalQuestions = () => {
+const AdditionalQuestions = ({ data }) => {
   const [activeRow, setActiveRow] = useState<number | null>(null);
 
   return (
@@ -29,6 +29,7 @@ const AdditionalQuestions = () => {
           <QuestionsWrapper active={activeRow === idx} isAdd={false} />
         </div>
       ))}
+      <QuestionsWrapper />
     </div>
   );
 };

@@ -3,19 +3,45 @@ import CoverImage from "./components/CoverImage";
 import PersonalInformation from "./components/PersonalInformation";
 import Profile from "./components/Profile";
 import AdditionalQuestions from "./components/AdditionalQuestions";
+import useApplicationForm from "./hooks/useApplicationForm";
 
 const ApplicationForm = () => {
+  const { inputs, handleChange } = useApplicationForm();
+  const inputsToUse = inputs?.data?.attributes;
+
   return (
     <div>
-      <FormWrapper title="Upload cover image" component={<CoverImage />} />
+      <FormWrapper
+        title="Upload cover image"
+        component={<CoverImage data={inputsToUse?.coverImage} />}
+      />
       <FormWrapper
         title="Personal Information"
-        component={<PersonalInformation />}
+        component={
+          <PersonalInformation
+            data={inputsToUse?.personalInformation}
+            handleChangeInput={(key, input, value) =>
+              handleChange("personalInformation", key, input, value)
+            }
+          />
+        }
       />
-      <FormWrapper title="Profile" component={<Profile />} />
+      <FormWrapper
+        title="Profile"
+        component={
+          <Profile
+            data={inputsToUse?.profile}
+            handleChangeInput={(key, input, value) =>
+              handleChange("profile", key, input, value)
+            }
+          />
+        }
+      />
       <FormWrapper
         title="Additional questions"
-        component={<AdditionalQuestions />}
+        component={
+          <AdditionalQuestions data={inputsToUse?.customisedQuestions} />
+        }
       />
     </div>
   );

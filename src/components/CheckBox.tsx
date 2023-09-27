@@ -1,16 +1,17 @@
 import { Checkbox } from "antd";
-import type { CheckboxChangeEvent } from "antd/es/checkbox";
 
 interface ICheckBox {
   label: string;
+  checked: boolean;
+  onChange: (checked: boolean) => void;
 }
 
-const CheckBox: React.FC<ICheckBox> = ({ label }) => {
-  const onChange = (e: CheckboxChangeEvent) => {
-    console.log(`checked = ${e.target.checked}`);
-  };
-
-  return <Checkbox onChange={onChange}>{label}</Checkbox>;
+const CheckBox: React.FC<ICheckBox> = ({ label, checked, onChange }) => {
+  return (
+    <Checkbox checked={checked} onChange={(e) => onChange(e.target.checked)}>
+      {label}
+    </Checkbox>
+  );
 };
 
 export default CheckBox;

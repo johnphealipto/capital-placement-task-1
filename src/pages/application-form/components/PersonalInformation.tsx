@@ -2,31 +2,47 @@ import CheckBox from "@/components/CheckBox";
 import { PERSONAL_INFO } from "../constant";
 import SwitchBox from "@/components/SwitchBox";
 import RowWrapper from "@/components/wrappers/RowWrapper";
+import QuestionsWrapper from "@/components/wrappers/QuestionsWrapper";
+import { IProfile } from "./Profile";
 
-const PersonalInformation = () => {
-  const excludings = ["firstName", "lastName", "emailId"];
+const PersonalInformation: React.FC<IProfile> = ({
+  data,
+  handleChangeInput,
+}) => {
+  const keysToExclude = ["firstName", "lastName", "emailId"];
 
   return (
     <div>
       {PERSONAL_INFO.map((item, idx) => (
-        <RowWrapper
-          key={idx}
-          isLastRow={idx === PERSONAL_INFO.length - 1}
-        >
+        <RowWrapper key={idx} isLastRow={idx === PERSONAL_INFO.length - 1}>
           <span className="font-bold">
             {item.name}{" "}
             {item.info ? (
               <span className="text-sm font-normal">({item.info})</span>
             ) : null}
           </span>
-          {!excludings.includes(item.key) ? (
+          {!keysToExclude.includes(item.key) ? (
             <div className="flex items-center gap-11">
-              <CheckBox label="Internal" />
-              <SwitchBox label="Hide" for={item.key} />
+              <CheckBox
+                label="Internal"
+                checked={data?.[item.key]?.internalUse}
+                onChange={(checked) =>
+                  handleChangeInput(item.key, "internalUse", checked)
+                }
+              />
+              <SwitchBox
+                label="Hide"
+                id={item.key}
+                checked={data?.[item.key]?.show}
+                onChange={(checked) =>
+                  handleChangeInput(item.key, "show", checked)
+                }
+              />
             </div>
           ) : null}
         </RowWrapper>
       ))}
+      <QuestionsWrapper />
     </div>
   );
 };

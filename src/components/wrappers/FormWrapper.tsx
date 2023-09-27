@@ -1,6 +1,6 @@
 interface IFormWrapper {
   title: string;
-  component: React.ReactNode
+  component: React.ReactNode;
 }
 
 const FormWrapper: React.FC<IFormWrapper> = ({ title, component }) => {

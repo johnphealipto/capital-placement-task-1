@@ -49,7 +49,7 @@ export const PROFILE = [
   },
   {
     name: "Resume",
-    key: "mandatory",
+    key: "resume",
   },
 ];
 
@@ -63,4 +63,16 @@ export const ADDITIONAL_QUESTIONS = [
     disqualify: false,
     other: false,
   },
+];
+
+export const QUESTION_TYPES = [
+  { value: "Paragraph", label: "Paragraph" },
+  { value: "Short answer", label: "Short answer" },
+  { value: "Yes/No", label: "Yes/No" },
+  { value: "Dropdown", label: "Dropdown" },
+  { value: "Multiple choice", label: "Multiple choice" },
+  { value: "Date", label: "Date" },
+  { value: "Number", label: "Number" },
+  { value: "File upload", label: "File upload" },
+  { value: "Video question", label: "Video question" },
 ];

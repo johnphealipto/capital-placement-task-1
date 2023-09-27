@@ -2,17 +2,15 @@ import { Switch } from "antd";
 
 interface ISwitchBox {
   label: string;
-  for: string;
+  id: string;
+  checked: boolean;
+  onChange: (checked: boolean) => void;
 }
 
-const SwitchBox: React.FC<ISwitchBox> = ({ label, for: htmlFor }) => {
-  const onChange = (checked: boolean) => {
-    console.log(`switch to ${checked}`);
-  };
-
+const SwitchBox: React.FC<ISwitchBox> = ({ label, id, checked, onChange }) => {
   return (
-    <label htmlFor={htmlFor} className="flex items-center gap-2 cursor-pointer">
-      <Switch id={htmlFor} defaultChecked size="small" onChange={onChange} />
+    <label htmlFor={id} className="flex items-center gap-2 cursor-pointer">
+      <Switch id={id} size="small" checked={checked} onChange={onChange} />
       <span className="text-sm">{label}</span>
     </label>
   );

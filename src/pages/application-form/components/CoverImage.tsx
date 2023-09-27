@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
 import { DeleteOutlined, UploadOutlined } from "@ant-design/icons";
 
-const CoverImage = () => {
+const CoverImage = ({ data }) => {
   const inputFileRef = useRef<HTMLInputElement>(null);
   const [file, setFile] = useState<string | null>(null);
 

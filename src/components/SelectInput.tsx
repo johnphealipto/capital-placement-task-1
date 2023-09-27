@@ -1,21 +1,24 @@
 import { Select } from "antd";
 
-const SelectInput = () => {
+interface ISelectInput {
+  label: string;
+  options: { value: string; label: string }[];
+}
+
+const SelectInput: React.FC<ISelectInput> = ({ label, options }) => {
   const handleChange = (value: string) => {
     console.log(`selected ${value}`);
   };
 
   return (
-    <Select
-      // defaultValue="lucy"
-      style={{ width: 120 }}
-      onChange={handleChange}
-      options={[
-        { value: "jack", label: "Jack" },
-        { value: "lucy", label: "Lucy" },
-        { value: "Yiminghe", label: "yiminghe" },
-      ]}
-    />
+    <div>
+      <p className="pb-1">{label}</p>
+      <Select
+        className="w-full h-11"
+        onChange={handleChange}
+        options={options}
+      />
+    </div>
   );
 };
 
