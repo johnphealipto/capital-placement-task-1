@@ -19,7 +19,7 @@ const ApplicationForm = () => {
   const inputsToUse = inputs.data.attributes;
 
   return (
-    <div className="flex flex-col gap-8">
+    <div className="flex flex-col gap-8 p-10">
       <FormWrapper
         title="Upload cover image"
         component={
