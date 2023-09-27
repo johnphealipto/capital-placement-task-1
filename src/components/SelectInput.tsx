@@ -1,10 +1,11 @@
 import { Select } from "antd";
 
 interface ISelectInput {
-  label: string;
-  value: string;
+  label?: string;
+  value?: string;
+  placeholder?: string;
   options: { value: string; label: string }[];
-  onChange: (value: string) => void;
+  onChange?: (value: string) => void;
 }
 
 const SelectInput: React.FC<ISelectInput> = ({
@@ -12,15 +13,17 @@ const SelectInput: React.FC<ISelectInput> = ({
   label,
   options,
   onChange,
+  placeholder,
 }) => {
   return (
-    <div>
-      <p className="pb-1">{label}</p>
+    <div className="w-full">
+      {label ? <p className="pb-1">{label}</p> : null}
       <Select
         value={value}
         className="w-full h-11"
         onChange={onChange}
         options={options}
+        placeholder={placeholder}
       />
     </div>
   );

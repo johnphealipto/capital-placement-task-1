@@ -1,4 +1,4 @@
-import { CancelIcon, EditIcon } from "@/assets/icons";
+import { CancelIcon, EditIcon, ListIcon } from "@/assets/icons";
 import classNames from "classnames";
 import { useState } from "react";
 import { nanoid } from "nanoid";
@@ -6,6 +6,8 @@ import { QUESTION_TYPES } from "../constant";
 import SelectInput from "@/components/SelectInput";
 import TextInput from "@/components/TextInput";
 import { PlusOutlined } from "@ant-design/icons";
+import CheckBox from "@/components/CheckBox";
+import cloneDeep from "lodash.clonedeep";
 
 interface IQuestionComponent {
   input: any;
@@ -20,6 +22,107 @@ const QuestionComponent: React.FC<IQuestionComponent> = ({
   onSave,
   handleChangeInput,
 }) => {
+  const [choices, setChoices] = useState([...input.choices]);
+
+  const handleChangeChoices = (index, value) => {
+    setChoices((prev) => {
+      const _choices = cloneDeep(prev);
+      _choices[index] = value;
+      return _choices;
+    });
+    handleChangeInput("choices", choices);
+  };
+
+  const EXTRA_INPUTS = {
+    "Yes/No": (
+      <CheckBox
+        label="Disqualify candidate if the answer is no"
+        checked={input.disqualify}
+        onChange={(checked) => handleChangeInput("disqualify", checked)}
+      />
+    ),
+    Dropdown: (
+      <div className="flex flex-col gap-5">
+        <div className="flex flex-col gap-3">
+          <p className="-mb-2 ml-7">Choice</p>
+          {choices.map((choice, idx) => (
+            <div key={idx} className="flex items-center gap-3">
+              <ListIcon />
+              <TextInput
+                placeholder="Type here"
+                value={choice}
+                onChange={(value) => handleChangeChoices(idx, value)}
+              />
+              {idx === choices.length - 1 ? (
+                <PlusOutlined
+                  onClick={() => setChoices((prev) => [...prev, ""])}
+                />
+              ) : null}
+            </div>
+          ))}
+        </div>
+        <CheckBox
+          label="Enable 'Other' option"
+          checked={input.other}
+          onChange={(checked) => handleChangeInput("other", checked)}
+        />
+      </div>
+    ),
+    "Multiple choice": (
+      <div className="flex flex-col gap-5">
+        <div className="flex flex-col gap-3">
+          <p className="-mb-2 ml-7">Choice</p>
+          {choices.map((choice, idx) => (
+            <div key={idx} className="flex items-center gap-3">
+              <ListIcon />
+              <TextInput
+                placeholder="Type here"
+                value={choice}
+                onChange={(value) => handleChangeChoices(idx, value)}
+              />
+              {idx === choices.length - 1 ? (
+                <PlusOutlined
+                  onClick={() => setChoices((prev) => [...prev, ""])}
+                />
+              ) : null}
+            </div>
+          ))}
+        </div>
+        <CheckBox
+          label="Enable 'Other' option"
+          checked={input.other}
+          onChange={(checked) => handleChangeInput("other", checked)}
+        />
+        <TextInput
+          label="Max choice allowed"
+          placeholder="Type here"
+          value={input.maxChoice}
+          onChange={(value) => {
+            const reg = /^[0-9\b]+$/;
+            if (value === "" || reg.test(value)) {
+              handleChangeInput("maxChoice", value);
+            }
+          }}
+        />
+      </div>
+    ),
+    "Video question": (
+      <div className="flex flex-col gap-3">
+        <TextInput placeholder="Additional information" />
+        <div className="flex gap-3">
+          <TextInput placeholder="Max duration of video in (sec/min)" />
+          <SelectInput
+            options={[
+              { value: "Seconds", label: "Seconds" },
+              { value: "Minutes", label: "Minutes" },
+            ]}
+            placeholder="Select 'Seconds' or 'Minutes'"
+          />
+        </div>
+      </div>
+    ),
+  };
+
   return (
     <>
       <div className="flex flex-col gap-3">
@@ -35,6 +138,7 @@ const QuestionComponent: React.FC<IQuestionComponent> = ({
           value={input.question}
           onChange={(value) => handleChangeInput("question", value)}
         />
+        {EXTRA_INPUTS[input.type]}
       </div>
       <div className="flex justify-between items-center mt-5">
         <button

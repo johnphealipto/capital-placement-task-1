@@ -1,10 +1,10 @@
 import { Input } from "antd";
 
 interface ITextInput {
-  label: string;
+  label?: string;
   placeholder: string;
-  value: any;
-  onChange: (value: any) => void;
+  value?: any;
+  onChange?: (value: any) => void;
 }
 
 const TextInput: React.FC<ITextInput> = ({
@@ -14,8 +14,8 @@ const TextInput: React.FC<ITextInput> = ({
   onChange,
 }) => {
   return (
-    <div>
-      <p className="pb-1">{label}</p>
+    <div className="w-full">
+      {label ? <p className="pb-1">{label}</p> : null}
       <Input
         className="w-full h-11"
         value={value}
