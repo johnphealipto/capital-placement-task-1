@@ -1,13 +1,21 @@
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import { DeleteOutlined, UploadOutlined } from "@ant-design/icons";
 
-const CoverImage = ({ data }) => {
+interface ICoverImage {
+  data: any;
+  handleChangeCoverImage: (value: string) => void;
+}
+
+const CoverImage: React.FC<ICoverImage> = ({
+  data,
+  handleChangeCoverImage,
+}) => {
   const inputFileRef = useRef<HTMLInputElement>(null);
-  const [file, setFile] = useState<string | null>(null);
+  const file = data === "http://example.com" ? "" : data;
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const imageURL = URL.createObjectURL(e.target.files[0]);
-    setFile(imageURL);
+    handleChangeCoverImage(imageURL);
   };
 
   return (
@@ -36,7 +44,7 @@ const CoverImage = ({ data }) => {
             </div>
             <div
               className="flex items-center gap-2 text-red-500 cursor-pointer p-2 border border-red-300 rounded-md"
-              onClick={() => setFile(null)}
+              onClick={() => handleChangeCoverImage("")}
             >
               <DeleteOutlined style={{ fontSize: 17, fontWeight: "bold" }} />
               Delete

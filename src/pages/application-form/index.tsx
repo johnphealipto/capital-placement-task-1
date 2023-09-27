@@ -6,20 +6,27 @@ import AdditionalQuestions from "./components/AdditionalQuestions";
 import useApplicationForm from "./hooks/useApplicationForm";
 
 const ApplicationForm = () => {
-  const { inputs, handleChange } = useApplicationForm();
-  const inputsToUse = inputs?.data?.attributes;
+  const { inputs, handleChange, handleChangeCoverImage } = useApplicationForm();
+  const inputsToUse = inputs.data.attributes;
 
   return (
     <div>
       <FormWrapper
         title="Upload cover image"
-        component={<CoverImage data={inputsToUse?.coverImage} />}
+        component={
+          <CoverImage
+            data={inputsToUse.coverImage}
+            handleChangeCoverImage={(value) =>
+              handleChangeCoverImage("coverImage", value)
+            }
+          />
+        }
       />
       <FormWrapper
         title="Personal Information"
         component={
           <PersonalInformation
-            data={inputsToUse?.personalInformation}
+            data={inputsToUse.personalInformation}
             handleChangeInput={(key, input, value) =>
               handleChange("personalInformation", key, input, value)
             }
@@ -30,7 +37,7 @@ const ApplicationForm = () => {
         title="Profile"
         component={
           <Profile
-            data={inputsToUse?.profile}
+            data={inputsToUse.profile}
             handleChangeInput={(key, input, value) =>
               handleChange("profile", key, input, value)
             }
@@ -40,7 +47,7 @@ const ApplicationForm = () => {
       <FormWrapper
         title="Additional questions"
         component={
-          <AdditionalQuestions data={inputsToUse?.customisedQuestions} />
+          <AdditionalQuestions data={inputsToUse.customisedQuestions} />
         }
       />
     </div>

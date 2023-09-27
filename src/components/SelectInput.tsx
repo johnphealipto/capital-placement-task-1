@@ -7,7 +7,7 @@ interface ISelectInput {
 
 const SelectInput: React.FC<ISelectInput> = ({ label, options }) => {
   const handleChange = (value: string) => {
-    console.log(`selected ${value}`);
+    // console.log(`selected ${value}`);
   };
 
   return (

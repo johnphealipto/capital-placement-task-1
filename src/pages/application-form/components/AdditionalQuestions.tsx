@@ -1,5 +1,4 @@
 import { EditIcon } from "@/assets/icons";
-import { ADDITIONAL_QUESTIONS } from "../constant";
 import classNames from "classnames";
 import { useState } from "react";
 import QuestionsWrapper from "@/components/wrappers/QuestionsWrapper";
@@ -9,11 +8,11 @@ const AdditionalQuestions = ({ data }) => {
 
   return (
     <div>
-      {ADDITIONAL_QUESTIONS.map((item, idx) => (
+      {data.map((item, idx) => (
         <div
           key={idx}
           className={classNames("py-4 border-b border-[#dfdfdf]", {
-            "!border-b-0": idx === ADDITIONAL_QUESTIONS.length - 1,
+            "!border-b-0": idx === data.length - 1,
           })}
         >
           <div className="flex justify-between items-center">
